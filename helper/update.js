@@ -7,6 +7,8 @@ module.exports.update = async (tableName, query, updates) => {
   let keys = Object.keys(updates);
   let replacements = [];
 
+  if (keys.length === 0) return 0;
+
   for (let i = 0; i < keys.length; i++) {
     let key = keys[i];
     let value = updates[key];
