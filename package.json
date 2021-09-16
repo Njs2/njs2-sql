@@ -1,6 +1,6 @@
 {
   "name": "@njs2/sql",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "loadEnv": true,
@@ -8,7 +8,7 @@
     "sequelize": "^6.3.5"
   },
   "scripts": {
-    "postinstall": "node ./postinstall.js"
+    "postinstall": "node ./postinstall.js --init-dir $INIT_CWD"
   },
   "keywords": [],
   "author": "",

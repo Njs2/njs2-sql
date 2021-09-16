@@ -2,10 +2,11 @@
 const fs = require('fs');
 const path = require('path');
 const LIBRARY_NAME = process.env.npm_package_name;
+const EXEC_DIR = process.argv.slice(2)[process.argv.slice(2).indexOf("--init-dir") + 1];
 
 const initEnv = async () => {
-  let envFileContents = fs.readFileSync(path.resolve(process.cwd(), `node_modules/${LIBRARY_NAME}/env.json`), 'utf8');
-  let projectEnvFileContents = fs.readFileSync(path.resolve(process.cwd(), `src/config/config.json`), 'utf8');
+  let envFileContents = fs.readFileSync(path.resolve(EXEC_DIR, `node_modules/${LIBRARY_NAME}/env.json`), 'utf8');
+  let projectEnvFileContents = fs.readFileSync(path.resolve(EXEC_DIR, `src/config/config.json`), 'utf8');
   envFileContents = JSON.parse(envFileContents);
   projectEnvFileContents = JSON.parse(projectEnvFileContents);
 
@@ -20,7 +21,7 @@ const initEnv = async () => {
     projectEnvFileContents[configKey] = envFileContents;
   }
 
-  fs.writeFileSync(path.resolve(process.cwd(), `src/config/config.json`), JSON.stringify(projectEnvFileContents, null, 2), 'utf8');
+  fs.writeFileSync(path.resolve(EXEC_DIR, `src/config/config.json`), JSON.stringify(projectEnvFileContents, null, 2), 'utf8');
 }
 
 initEnv();
