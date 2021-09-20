@@ -1,10 +1,13 @@
 const { getSQLConnection } = require('./dbConnect');
 const { DATABASE_TYPE } = JSON.parse(process.env.SQL);
 
-module.exports.find = async (tableName, query, order = {}) => {
+module.exports.find = async (tableName, query, order = {}, attributes = []) => {
   const conn = await getSQLConnection();
-  let sql = `SELECT * FROM ${{ "postgres": '"public".', "mysql": '' }[DATABASE_TYPE]}"${tableName}" WHERE `;
+  let sql = `SELECT ${attributes.length ? attributes.join(',') : '*'} FROM ${{ "postgres": '"public".', "mysql": '' }[DATABASE_TYPE]}"${tableName}" `;
   let keys = Object.keys(query);
+  if(keys.length) {
+    sql += ` WHERE `;
+  }
   let replacements = [];
 
   for (let i = 0; i < keys.length; i++) {
