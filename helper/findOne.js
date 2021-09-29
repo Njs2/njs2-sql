@@ -6,7 +6,7 @@ module.exports.findOne = async (tableName, query, order = {}, attributes = []) =
   let sql = `SELECT ${attributes.length ? attributes.join(',') : '*'} FROM ${{ "postgres": '"public".', "mysql": '' }[DATABASE_TYPE]}"${tableName}" `;
   let keys = Object.keys(query);
   let replacements = [];
-  if(keys.length) {
+  if (keys.length) {
     sql += ` WHERE `;
   }
 
@@ -71,5 +71,5 @@ module.exports.findOne = async (tableName, query, order = {}, attributes = []) =
   const res = await conn.query(sql, {
     replacements: replacements, raw: true, nest: true
   });
-  return res;
+  return res[0];
 };
