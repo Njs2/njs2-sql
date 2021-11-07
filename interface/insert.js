@@ -1,5 +1,5 @@
 
-const { getSQLConnection } = require('./dbConnect');
+const { getSQLConnection } = require('../helper/dbConnect');
 const { DATABASE_TYPE } = JSON.parse(process.env.SQL);
 
 module.exports.insert = async (tableName, query) => {

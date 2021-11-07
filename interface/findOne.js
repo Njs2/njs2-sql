@@ -1,4 +1,4 @@
-const { getSQLConnection } = require('./dbConnect');
+const { getSQLConnection } = require('../helper/dbConnect');
 const { DATABASE_TYPE } = JSON.parse(process.env.SQL);
 
 module.exports.findOne = async (tableName, query, order = {}, attributes = []) => {

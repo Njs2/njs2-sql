@@ -1,9 +1,9 @@
-const { doExecute } = require("./helper/doExecute");
-const { doExecuteRawQuery } = require("./helper/doExecuteRawQuery");
-const { find } = require("./helper/find");
-const { findOne } = require("./helper/findOne");
-const { insert } = require("./helper/insert");
-const { update } = require("./helper/update");
+const { doExecute } = require("./interface/doExecute");
+const { doExecuteRawQuery } = require("./interface/doExecuteRawQuery");
+const { find } = require("./interface/find");
+const { findOne } = require("./interface/findOne");
+const { insert } = require("./interface/insert");
+const { update } = require("./interface/update");
 
 class SQLManager {
   /**
@@ -46,7 +46,7 @@ class SQLManager {
   static update = update;
   static doExecute = doExecute;
   static doExecuteRawQuery = doExecuteRawQuery;
-  static verifyTbl = require("./helper/dbManager").dbManager.verifyTbl;
+  static verifyTbl = require("./interface/dbManager").dbManager.verifyTbl;
 }
 
 module.exports = SQLManager;

@@ -1,4 +1,4 @@
-const { getSQLConnection } = require('./dbConnect');
+const { getSQLConnection } = require('../helper/dbConnect');
 const { QueryTypes } = require('sequelize');
 
 module.exports.doExecuteRawQuery = async (sqlQuery, replacements) => {
