@@ -1,5 +1,5 @@
-const { doExecute } = require('./doExecute');
-const { find } = require('./find');
+const { doExecute } = require('../interface/doExecute');
+const { find } = require('../interface/find');
 
 let dbManager = {};
 
@@ -19,7 +19,7 @@ dbManager.verifyTbl = async (tableName, model) => {
   let dbResult = [];
   schema.map(fields => dbSchema[fields.column_name] = fields.data_type);
 
-  const DATA_TYPE = require("../lib/dataType");
+  const DATA_TYPE = require("./dataType");
   if (model[DATABASE_TYPE]) {
     Object.keys(model[DATABASE_TYPE]).map(field => {
       let type = model[DATABASE_TYPE][field];
