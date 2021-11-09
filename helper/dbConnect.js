@@ -1,6 +1,6 @@
 let conn = null;
 // Connecting to DB
-const getSQLConnection = async () => {
+const getConnection = async () => {
   if (!conn) {
     const Sequelize = require("sequelize");
     const { SQL_DB_HOST, SQL_DB_NAME, SQL_DB_USER, SQL_DB_PORT, SQL_DB_PASSWORD, DATABASE_TYPE } = JSON.parse(process.env.SQL);
@@ -27,4 +27,4 @@ const getSQLConnection = async () => {
   return conn;
 };
 
-module.exports.getSQLConnection = getSQLConnection;
+module.exports.getConnection = getConnection;

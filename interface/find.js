@@ -1,8 +1,8 @@
-const { getSQLConnection } = require('../helper/dbConnect');
+const { getConnection } = require('../helper/dbConnect');
 const { DATABASE_TYPE } = JSON.parse(process.env.SQL);
 
 module.exports.find = async (tableName, query, order = {}, attributes = []) => {
-  const conn = await getSQLConnection();
+  const conn = await getConnection();
   let sql = `SELECT ${attributes.length ? attributes.join(',') : '*'} FROM ${{ "postgres": '"public".', "mysql": '' }[DATABASE_TYPE]}"${tableName}" `;
   let keys = Object.keys(query);
   if(keys.length) {
