@@ -1,8 +1,8 @@
-const { getSQLConnection } = require('./dbConnect');
+const { getConnection } = require('../helper/dbConnect');
 const { DATABASE_TYPE } = JSON.parse(process.env.SQL);
 
 module.exports.update = async (tableName, query, updates) => {
-  const conn = await getSQLConnection();
+  const conn = await getConnection();
   let sql = `UPDATE ${{ "postgres": '"public".', "mysql": '' }[DATABASE_TYPE]}"${tableName}" SET `;
   let keys = Object.keys(updates);
   let replacements = [];

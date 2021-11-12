@@ -1,9 +1,9 @@
 
-const { getSQLConnection } = require('./dbConnect');
+const { getConnection } = require('../helper/dbConnect');
 const { DATABASE_TYPE } = JSON.parse(process.env.SQL);
 
 module.exports.insert = async (tableName, query) => {
-  const conn = await getSQLConnection();
+  const conn = await getConnection();
   let sql = `INSERT into ${{ "postgres": '"public".', "mysql": '' }[DATABASE_TYPE]}"${tableName}" (`;
   let keys = Object.keys(query);
   let replacements = [];
