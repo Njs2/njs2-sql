@@ -6,5 +6,5 @@ The `@njs2/sql` is a library package for Njs2 framework that helps to make SQL d
 ## Installation
 Install the `@njs2/sql` using below command. 
 ```
-njs2 plugin @njs2/sql
+npm i @njs2/sql
 ```
