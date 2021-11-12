@@ -46,7 +46,7 @@ class SQLManager {
   static update = update;
   static doExecute = doExecute;
   static doExecuteRawQuery = doExecuteRawQuery;
-  static verifyTbl = require("./interface/dbManager").dbManager.verifyTbl;
+  static verifyTbl = require("./helper/dbManager").dbManager.verifyTbl;
 }
 
 module.exports = SQLManager;
