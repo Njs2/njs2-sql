@@ -90,7 +90,7 @@ module.exports.update = async (tableName, query, updates) => {
      });
     }
     else{  //if not object then it is direct value as a string. i.e user_id=1
-      sql += ` "${key}" ${eq} ? ${i != keys.length - 1 ? ' AND ' : ''}`;
+      sql += ` "${key}" ${eq} ?`;
       replacements.push(value);
     }
      sql += ` ${i != keys.length - 1 ? ' AND ' : ''}`;
