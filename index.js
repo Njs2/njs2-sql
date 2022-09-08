@@ -4,6 +4,7 @@ const { find } = require("./interface/find");
 const { findOne } = require("./interface/findOne");
 const { insert } = require("./interface/insert");
 const { update } = require("./interface/update");
+const transaction = new(require("./interface/transaction"));
 
 class SQLManager {
   /**
@@ -46,6 +47,7 @@ class SQLManager {
   static update = update;
   static doExecute = doExecute;
   static doExecuteRawQuery = doExecuteRawQuery;
+  static transaction = transaction;
   static verifyTbl = require("./helper/dbManager").dbManager.verifyTbl;
 }
 
