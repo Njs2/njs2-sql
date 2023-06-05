@@ -48,12 +48,25 @@ module.exports.findOne = async (
             value = fixedvalue[condition];
             break;
 
+          case "$ne":
+            eq = "!=";
+            value = fixedvalue[condition];
+            break;
+
           case "$in":
             eq = "IN";
             value = `(${fixedvalue[condition].map((d) => `'${d}'`).join(",")})`;
             sql += ` "${key}" ${eq} ${value} ${
               k != Object.keys(fixedvalue).length - 1 ? " AND " : ""
             }`; //if 'IN' case then instead of ?, add full array directly
+            isIn = true;
+            break;
+
+          case '$notIn':
+            eq = "NOT IN";
+            value = `(${fixedvalue[condition].map((d) => `'${d}'`).join(",")})`;
+            sql += ` "${key}" ${eq} ${value} ${k != Object.keys(fixedvalue).length - 1 ? " AND " : ""
+              }`; //if 'IN' case then instead of ?, add full array directly
             isIn = true;
             break;
         }
