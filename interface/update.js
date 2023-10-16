@@ -1,11 +1,15 @@
 const { getConnection } = require("../helper/dbConnect");
 const { DATABASE_TYPE } = JSON.parse(process.env.SQL);
+const TABLE_INITIAL = {
+  postgres: '"public".',
+  mysql: "",
+  sqlite: ""
+}
 
 module.exports.update = async (tableName, query, updates) => {
   const conn = await getConnection();
-  let sql = `UPDATE ${
-    { postgres: '"public".', mysql: "" }[DATABASE_TYPE]
-  }"${tableName}" SET `;
+  let sql = `UPDATE ${TABLE_INITIAL[DATABASE_TYPE]
+    }"${tableName}" SET `;
   let keys = Object.keys(updates);
   let replacements = [];
 
@@ -73,9 +77,8 @@ module.exports.update = async (tableName, query, updates) => {
           case "$in":
             eq = "IN";
             value = `(${fixedvalue[condition].map((d) => `'${d}'`).join(",")})`;
-            sql += ` "${key}" ${eq} ${value} ${
-              k != Object.keys(fixedvalue).length - 1 ? " AND " : ""
-            }`; //if 'IN' case then instead of ?, add full array directly
+            sql += ` "${key}" ${eq} ${value} ${k != Object.keys(fixedvalue).length - 1 ? " AND " : ""
+              }`; //if 'IN' case then instead of ?, add full array directly
             isIn = true;
             break;
         }
@@ -84,9 +87,8 @@ module.exports.update = async (tableName, query, updates) => {
         if (!isIn) {
           if (typeof value == "object") value = JSON.stringify(value);
 
-          sql += ` "${key}" ${eq} ? ${
-            k != Object.keys(fixedvalue).length - 1 ? " AND " : ""
-          }`;
+          sql += ` "${key}" ${eq} ? ${k != Object.keys(fixedvalue).length - 1 ? " AND " : ""
+            }`;
           replacements.push(value);
         }
         isIn = false;
@@ -107,7 +109,16 @@ module.exports.update = async (tableName, query, updates) => {
     replacements: replacements,
     raw: true,
   });
-  return { postgres: res[1].rowCount, mysql: res[1].affectedRows }[
-    DATABASE_TYPE
-  ];
+  let result;
+  if (DATABASE_TYPE == "postgres") {
+    result = res[0][0];
+  }
+  else if (DATABASE_TYPE == "mysql") {
+    result = res[0];
+  }
+  else if (DATABASE_TYPE == "sqlite") {
+    console.log(res);
+    result = res;
+  }
+  return result;
 };

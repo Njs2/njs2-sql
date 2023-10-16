@@ -1,11 +1,14 @@
 const { getConnection } = require("../helper/dbConnect");
 const { DATABASE_TYPE } = JSON.parse(process.env.SQL);
-
+const TABLE_INITIAL = {
+  postgres: '"public".',
+  mysql: "",
+  sqlite: ""
+}
 module.exports.find = async (tableName, query, order = {}, attributes = []) => {
   const conn = await getConnection();
-  let sql = `SELECT ${attributes.length ? attributes.join(",") : "*"} FROM ${
-    { postgres: '"public".', mysql: "" }[DATABASE_TYPE]
-  }"${tableName}" `;
+  let sql = `SELECT ${attributes.length ? attributes.join(",") : "*"} FROM ${TABLE_INITIAL[DATABASE_TYPE]
+    }"${tableName}" `;
   let keys = Object.keys(query);
 
   if (keys.length) {
@@ -46,9 +49,8 @@ module.exports.find = async (tableName, query, order = {}, attributes = []) => {
           case "$in":
             eq = "IN";
             value = `(${fixedvalue[condition].map((d) => `'${d}'`).join(",")})`;
-            sql += ` "${key}" ${eq} ${value} ${
-              k != Object.keys(fixedvalue).length - 1 ? " AND " : ""
-            }`; //if 'IN' case then instead of ?, add full array directly
+            sql += ` "${key}" ${eq} ${value} ${k != Object.keys(fixedvalue).length - 1 ? " AND " : ""
+              }`; //if 'IN' case then instead of ?, add full array directly
             isIn = true;
             break;
         }
@@ -57,9 +59,8 @@ module.exports.find = async (tableName, query, order = {}, attributes = []) => {
         if (!isIn) {
           if (typeof value == "object") value = JSON.stringify(value);
 
-          sql += ` "${key}" ${eq} ? ${
-            k != Object.keys(fixedvalue).length - 1 ? " AND " : ""
-          }`;
+          sql += ` "${key}" ${eq} ? ${k != Object.keys(fixedvalue).length - 1 ? " AND " : ""
+            }`;
           replacements.push(value);
         }
         isIn = false;
@@ -78,9 +79,8 @@ module.exports.find = async (tableName, query, order = {}, attributes = []) => {
     if (i == 0) sql += " ORDER BY ";
     let key = keys[i];
     let value = order[key];
-    sql += ` "${key}" ${value == 1 ? " ASC " : " DESC "} ${
-      i != keys.length - 1 ? ", " : ""
-    }`;
+    sql += ` "${key}" ${value == 1 ? " ASC " : " DESC "} ${i != keys.length - 1 ? ", " : ""
+      }`;
   }
   // Remove double qoutes from mysql query and replace single qoutes to double
   if (DATABASE_TYPE == "postgres") sql = sql.replace(/'/g, '"');

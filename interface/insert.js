@@ -1,10 +1,14 @@
 
 const { getConnection } = require('../helper/dbConnect');
 const { DATABASE_TYPE } = JSON.parse(process.env.SQL);
-
+const TABLE_INITIAL = {
+  postgres: '"public".',
+  mysql: "",
+  sqlite: ""
+}
 module.exports.insert = async (tableName, query) => {
   const conn = await getConnection();
-  let sql = `INSERT into ${{ "postgres": '"public".', "mysql": '' }[DATABASE_TYPE]}"${tableName}" (`;
+  let sql = `INSERT into ${TABLE_INITIAL[DATABASE_TYPE]}"${tableName}" (`;
   let keys = Object.keys(query);
   let replacements = [];
 
@@ -43,5 +47,17 @@ module.exports.insert = async (tableName, query) => {
     replacements: replacements, raw: false
   });
 
-  return { "postgres": res[0][0], "mysql": res[0] }[DATABASE_TYPE];
+  let result;
+  if (DATABASE_TYPE == "postgres") {
+    result = res[0][0];
+  }
+  else if (DATABASE_TYPE == "mysql") {
+    result = res[0];
+  }
+  else if (DATABASE_TYPE == "sqlite") {
+    console.log(res);
+    result = res[1];
+  }
+
+  return result;
 };
