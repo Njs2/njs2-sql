@@ -117,7 +117,6 @@ module.exports.update = async (tableName, query, updates) => {
     result = res[0];
   }
   else if (DATABASE_TYPE == "sqlite") {
-    console.log(res);
     result = res;
   }
   return result;

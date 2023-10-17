@@ -55,7 +55,6 @@ module.exports.insert = async (tableName, query) => {
     result = res[0];
   }
   else if (DATABASE_TYPE == "sqlite") {
-    console.log(res);
     result = res[1];
   }
 
