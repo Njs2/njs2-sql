@@ -10,7 +10,8 @@ const getConnection = async () => {
       SQL_DB_USER,
       SQL_DB_PORT,
       SQL_DB_PASSWORD,
-      DATABASE_TYPE
+      DATABASE_TYPE,
+      ADDITIONAL_CONFIG
     } = DB_CONFIG;
 
     const config = {
@@ -29,7 +30,8 @@ const getConnection = async () => {
         idle: 20000,
         acquire: 20000
       },
-      logging: false, // To avoid sql query logs
+      logging: false, // To avoid sql query logs,
+      ...ADDITIONAL_CONFIG
     };
 
     if (DATABASE_TYPE === "sqlite") {
