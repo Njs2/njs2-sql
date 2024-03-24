@@ -1,3 +1,4 @@
+const sequelize = require("sequelize");
 const { getConnection } = require("../helper/dbConnect");
 const { QueryTypes } = require("sequelize");
 
@@ -42,6 +43,20 @@ class transaction {
       return false;
     }
   }
+
+  async transactionContextCodeBlock(callback) {
+    try {
+      conn = await getConnection();
+      await conn.transaction(async (_) => {
+          // all your code will be executed within the DB transaction
+          // commit and rollback will be "managed" by sequelize!
+          callback()
+      })
+    } catch (error) {
+      throw error
+    }
+  }
+
 }
 
 module.exports = transaction;
