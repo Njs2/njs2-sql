@@ -3,6 +3,9 @@ let conn = null;
 const getConnection = async () => {
   if (!conn) {
     const Sequelize = require("sequelize");
+    const cls = require('cls-hooked');
+    const namespace = cls.createNamespace('njs2');
+    Sequelize.useCLS(namespace);
     const {
       SQL_DB_HOST,
       SQL_DB_NAME,
@@ -14,8 +17,9 @@ const getConnection = async () => {
       POOL_MIN,
       POOL_IDLE_TIME,
       POOL_ACQUIRE,
-      LOGGING,
+      LOGGING
     } = JSON.parse(process.env.SQL);
+      
     conn = new Sequelize({
       database: SQL_DB_NAME,
       host: SQL_DB_HOST,
