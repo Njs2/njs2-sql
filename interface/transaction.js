@@ -1,4 +1,3 @@
-const sequelize = require("sequelize");
 const { getConnection } = require("../helper/dbConnect");
 const { QueryTypes } = require("sequelize");
 
@@ -50,7 +49,7 @@ class transaction {
       await conn.transaction(async (_) => {
           // all your code will be executed within the DB transaction
           // commit and rollback will be "managed" by sequelize!
-          callback()
+          await callback()
       })
     } catch (error) {
       throw error
