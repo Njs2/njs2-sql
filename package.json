@@ -5,6 +5,7 @@
   "main": "index.js",
   "loadEnv": true,
   "dependencies": {
+    "cls-hooked": "^4.2.2",
     "sequelize": "^6.3.5"
   },
   "scripts": {
