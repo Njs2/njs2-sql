@@ -9,7 +9,7 @@
     "sequelize": "^6.3.5"
   },
   "scripts": {
-    "postinstall": "node ./postinstall.js --init-dir $INIT_CWD"
+    "postinstall": "node ./postinstall.js"
   },
   "repository": {
     "type": "git",
