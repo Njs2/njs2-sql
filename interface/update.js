@@ -100,9 +100,7 @@ module.exports.update = async (tableName, query, updates) => {
   }
 
   // Remove double qoutes from mysql query and replace single qoutes to double
-  if (DATABASE_TYPE == "postgres") {
-    sql = sql.replace(/'/g, '"');
-  } else if (DATABASE_TYPE == "mysql") sql = sql.replace(/"/g, "");
+  if (DATABASE_TYPE == "mysql") sql = sql.replace(/"/g, "");
   let res = await conn.query(sql, {
     replacements: replacements,
     raw: true,
