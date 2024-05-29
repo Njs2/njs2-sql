@@ -1,6 +1,6 @@
 {
   "name": "@njs2/sql",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "",
   "main": "index.js",
   "loadEnv": true,
